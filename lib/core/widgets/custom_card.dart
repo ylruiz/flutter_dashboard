@@ -11,6 +11,8 @@ class CustomCard extends StatelessWidget {
   final double? height;
   final VoidCallback? onTap;
   final bool showShadow;
+  final bool showBorder;
+  final double? elevation;
 
   const CustomCard({
     super.key,
@@ -22,26 +24,41 @@ class CustomCard extends StatelessWidget {
     this.height,
     this.onTap,
     this.showShadow = true,
+    this.showBorder = false,
+    this.elevation,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       width: width,
       height: height,
       margin: margin,
       padding: padding ?? AppSpacing.cardPadding,
       decoration: BoxDecoration(
-        color: color,
+        color: color ?? colorScheme.surface,
         borderRadius: AppBorderRadius.mediumRadius,
+        border: showBorder
+            ? Border.all(
+                color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+                width: 1,
+              )
+            : null,
         boxShadow: showShadow
-            ? [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ]
+            ? elevation != null
+                  ? [
+                      BoxShadow(
+                        color: Colors.black.withValues(
+                          alpha: 0.08 * elevation!,
+                        ),
+                        blurRadius: 8 * elevation!,
+                        offset: Offset(0, 2 * elevation!),
+                      ),
+                    ]
+                  : AppShadows.mediumShadow
             : null,
       ),
       child: Material(

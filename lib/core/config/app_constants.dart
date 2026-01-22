@@ -18,8 +18,38 @@ class AppBorderRadius {
   static const double small = 8.0;
   static const double medium = 12.0;
   static const double large = 16.0;
+  static const double xl = 20.0;
 
   static BorderRadius get smallRadius => BorderRadius.circular(small);
   static BorderRadius get mediumRadius => BorderRadius.circular(medium);
   static BorderRadius get largeRadius => BorderRadius.circular(large);
+  static BorderRadius get xlRadius => BorderRadius.circular(xl);
+}
+
+class AppShadows {
+  static const Color shadowColor = Color(0x1A000000);
+
+  static List<BoxShadow> smallShadow = [
+    BoxShadow(
+      color: shadowColor,
+      blurRadius: 8,
+      offset: Offset(0, 2),
+      spreadRadius: 0,
+    ),
+  ];
+
+  static List<BoxShadow> mediumShadow = [
+    BoxShadow(
+      color: shadowColor,
+      blurRadius: 12,
+      offset: Offset(0, 4),
+      spreadRadius: 0,
+    ),
+    BoxShadow(
+      color: shadowColor,
+      blurRadius: 4,
+      offset: Offset(0, 1),
+      spreadRadius: 0,
+    ),
+  ];
 }

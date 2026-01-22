@@ -46,6 +46,10 @@ dependencies:
   freezed_annotation: ^3.1.0
   auto_route: ^11.1.0
   auto_route_generator: ^10.2.3
+  flutter_reorderable_grid_view: ^5.5.2
+  fl_chart: ^0.70.0
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
   
 dev_dependencies:
   flutter_test:

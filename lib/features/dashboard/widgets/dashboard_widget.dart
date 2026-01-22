@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/config/responsive.dart';
@@ -6,7 +5,7 @@ import '../../../core/navigation/widgets/sidebar_navigation.dart';
 import 'dashboard_app_bar.dart';
 import '../../../core/navigation/widgets/bottom_navigation.dart';
 import 'dashboard_drawer.dart';
-import 'details_panel.dart';
+import 'dashboard_grid.dart';
 
 class ResponsiveDashboard extends StatelessWidget {
   const ResponsiveDashboard({super.key});
@@ -40,14 +39,13 @@ class DesktopDashboard extends StatelessWidget {
               userEmail: 'john.doe@example.com',
             ),
           ),
-          const Expanded(
+          Expanded(
             flex: 6,
             child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text('Dasboard content goes here'),
+              padding: const EdgeInsets.all(16.0),
+              child: const DashboardGrid(),
             ),
           ),
-          Expanded(flex: 3, child: DetailsPanel()),
         ],
       ),
     );
@@ -65,13 +63,7 @@ class TabletDashboard extends StatelessWidget {
         userName: 'John Doe',
         userEmail: 'john.doe@example.com',
       ),
-      body: Row(
-        children: [
-          const Expanded(flex: 6, child: Text('Dasboard content goes here')),
-          if (MediaQuery.of(context).size.width >= 950)
-            const Expanded(flex: 3, child: DetailsPanel()),
-        ],
-      ),
+      body: const DashboardGrid(),
     );
   }
 }
@@ -88,7 +80,7 @@ class MobileDashboard extends StatelessWidget {
         userEmail: 'john.doe@example.com',
       ),
       endDrawer: const Placeholder(),
-      body: Text('Dasboard content goes here'),
+      body: const DashboardGrid(),
       bottomNavigationBar: const BottomNavigation(),
     );
   }
