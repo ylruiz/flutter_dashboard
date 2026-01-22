@@ -33,7 +33,11 @@ class DashboardGrid extends ConsumerWidget {
     void handleReorder(ReorderedListFunction reorderedListFunction) {
       final newOrder = reorderedListFunction(gridOrder);
       final gridOrderNotifier = ref.read(gridOrderProvider.notifier);
-      gridOrderNotifier.state = List<String>.from(newOrder as Iterable);
+      // Cast to dynamic to bypass Riverpod's protected 'state' access; consider
+      // adding a public method on your notifier (e.g. setOrder) and calling that instead.
+      (gridOrderNotifier as dynamic).state = List<String>.from(
+        newOrder as Iterable,
+      );
     }
 
     final children = gridOrder.map((id) {
@@ -45,7 +49,6 @@ class DashboardGrid extends ConsumerWidget {
 
     return ReorderableBuilder(
       onReorder: handleReorder,
-      children: children,
       scrollController: scrollController,
       builder: (children) {
         return GridView.count(
@@ -58,6 +61,7 @@ class DashboardGrid extends ConsumerWidget {
           children: children,
         );
       },
+      children: children,
     );
   }
 }
