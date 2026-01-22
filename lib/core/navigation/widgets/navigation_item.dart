@@ -4,13 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/navigation_config.dart';
 import '../providers/navigation_provider.dart';
+import '../routing/app_router.gr.dart';
 import '../routing/paths.dart';
 
 class NavigationItem extends ConsumerWidget {
   final NavigationItemConfig config;
-  final VoidCallback? onTap;
 
-  const NavigationItem({super.key, required this.config, this.onTap});
+  const NavigationItem({super.key, required this.config});
 
   bool _pathMatchesItem(String path, NavigationItemConfig item) {
     switch (item.type) {
@@ -76,7 +76,20 @@ class NavigationItem extends ConsumerWidget {
         ),
         onTap: () {
           ref.read(navigationProvider.notifier).selectItem(config.type);
-          onTap?.call();
+          switch (config.type) {
+            case NavigationItemType.dashboard:
+              context.router.push(const DashboardRoute());
+              break;
+            case NavigationItemType.graphics:
+              context.router.push(const GraphicsRoute());
+              break;
+            case NavigationItemType.reports:
+              context.router.push(const ReportsRoute());
+              break;
+            case NavigationItemType.tables:
+              context.router.push(const TablesRoute());
+              break;
+          }
         },
       ),
     );

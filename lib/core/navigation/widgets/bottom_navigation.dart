@@ -2,14 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/navigation/models/navigation_config.dart';
-import '../../../core/navigation/providers/navigation_provider.dart';
-import '../../../core/navigation/routing/paths.dart';
+import '../models/navigation_config.dart';
+import '../providers/navigation_provider.dart';
+import '../routing/paths.dart';
 
-class DashboardBottomNavigation extends ConsumerWidget {
+class BottomNavigation extends ConsumerWidget {
   final List<NavigationItemConfig>? items;
 
-  const DashboardBottomNavigation({super.key, this.items});
+  const BottomNavigation({super.key, this.items});
 
   bool _pathMatchesItem(String path, NavigationItemConfig item) {
     switch (item.type) {

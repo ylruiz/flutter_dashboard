@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../core/config/responsive.dart';
 import '../../../core/navigation/widgets/sidebar_navigation.dart';
 import 'dashboard_app_bar.dart';
-import 'dashboard_bottom_navigation.dart';
+import '../../../core/navigation/widgets/bottom_navigation.dart';
 import 'dashboard_drawer.dart';
 import 'details_panel.dart';
 
@@ -67,10 +67,7 @@ class TabletDashboard extends StatelessWidget {
       ),
       body: Row(
         children: [
-          const Expanded(
-            flex: 6,
-            child: AutoRouter(key: ValueKey('dashboard_router')),
-          ),
+          const Expanded(flex: 6, child: Text('Dasboard content goes here')),
           if (MediaQuery.of(context).size.width >= 950)
             const Expanded(flex: 3, child: DetailsPanel()),
         ],
@@ -91,8 +88,8 @@ class MobileDashboard extends StatelessWidget {
         userEmail: 'john.doe@example.com',
       ),
       endDrawer: const Placeholder(),
-      body: const AutoRouter(key: ValueKey('dashboard_router')),
-      bottomNavigationBar: const DashboardBottomNavigation(),
+      body: Text('Dasboard content goes here'),
+      bottomNavigationBar: const BottomNavigation(),
     );
   }
 }
