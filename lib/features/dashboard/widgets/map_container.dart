@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import '../../../core/widgets/custom_card.dart';
+import '../../../core/widgets/expanded_container.dart';
 
 class MapContainer extends StatelessWidget {
   const MapContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
-      width: double.infinity,
-      height: double.infinity,
+    return ExpandedContainer(
+      title: 'Map View',
       child: FlutterMap(
         options: MapOptions(
           initialCenter: LatLng(51.505, -0.09),
