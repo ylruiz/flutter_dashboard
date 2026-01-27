@@ -4,14 +4,15 @@ import '../../tables/widgets/component_specs_table.dart';
 import '../../tables/widgets/sensor_table.dart';
 import 'graph_container.dart';
 
-class DashboardContent extends StatelessWidget {
-  const DashboardContent({super.key});
+class ResponsiveDashboardContent extends StatelessWidget {
+  const ResponsiveDashboardContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       shrinkWrap: true,
       itemCount: 3,
+      separatorBuilder: (context, index) => const SizedBox(height: 16.0),
       itemBuilder: (context, index) {
         switch (index) {
           case 0:

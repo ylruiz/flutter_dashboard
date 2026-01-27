@@ -32,7 +32,6 @@ class ExpandedContainer extends HookConsumerWidget {
           color: colorScheme.outlineVariant.withValues(alpha: 0.5),
           width: 1,
         ),
-        boxShadow: AppShadows.mediumShadow,
       ),
       child: CustomCard(
         child: Column(

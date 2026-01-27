@@ -10,6 +10,6 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ResponsiveDashboardLayout(body: DashboardContent());
+    return const ResponsiveDashboardLayout(body: ResponsiveDashboardContent());
   }
 }

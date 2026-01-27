@@ -38,29 +38,6 @@ class CustomCard extends StatelessWidget {
       height: height,
       margin: margin,
       padding: padding ?? AppSpacing.cardPadding,
-      decoration: BoxDecoration(
-        color: color ?? colorScheme.surface,
-        borderRadius: AppBorderRadius.mediumRadius,
-        border: showBorder
-            ? Border.all(
-                color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-                width: 1,
-              )
-            : null,
-        boxShadow: showShadow
-            ? elevation != null
-                  ? [
-                      BoxShadow(
-                        color: Colors.black.withValues(
-                          alpha: 0.08 * elevation!,
-                        ),
-                        blurRadius: 8 * elevation!,
-                        offset: Offset(0, 2 * elevation!),
-                      ),
-                    ]
-                  : AppShadows.mediumShadow
-            : null,
-      ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
