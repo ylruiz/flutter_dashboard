@@ -8,7 +8,7 @@ class FrequencyChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
+        Flexible(
           child: Column(
             children: [
               const Padding(
@@ -18,7 +18,7 @@ class FrequencyChart extends StatelessWidget {
                   style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
                 ),
               ),
-              Expanded(
+              Flexible(
                 child: LineChart(
                   LineChartData(
                     gridData: FlGridData(
@@ -101,7 +101,7 @@ class FrequencyChart extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        Expanded(
+        Flexible(
           child: Column(
             children: [
               const Padding(
@@ -111,7 +111,7 @@ class FrequencyChart extends StatelessWidget {
                   style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
                 ),
               ),
-              Expanded(
+              Flexible(
                 child: LineChart(
                   LineChartData(
                     gridData: FlGridData(

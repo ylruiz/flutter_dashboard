@@ -11,11 +11,12 @@ class GraphContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpandedContainer(
       title: 'Graphics Overview',
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(child: WaveformChart()),
-          Expanded(child: FrequencyChart()),
-          Expanded(child: PowerChart()),
+          Flexible(child: WaveformChart()),
+          Flexible(child: FrequencyChart()),
+          Flexible(child: PowerChart()),
         ],
       ),
     );

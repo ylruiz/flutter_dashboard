@@ -2,38 +2,42 @@ import 'package:flutter/material.dart';
 
 import '../../../core/config/responsive.dart';
 import '../../../core/navigation/widgets/sidebar_navigation.dart';
-import 'dashboard_app_bar.dart';
 import '../../../core/navigation/widgets/bottom_navigation.dart';
+import 'dashboard_app_bar.dart';
 import 'dashboard_drawer.dart';
-import 'dashboard_grid.dart';
 
-class ResponsiveDashboard extends StatelessWidget {
-  const ResponsiveDashboard({super.key});
+class ResponsiveDashboardLayout extends StatelessWidget {
+  const ResponsiveDashboardLayout({super.key, required this.body});
+
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
     if (Responsive.isDesktop(context)) {
-      return const DesktopDashboard();
+      return _DesktopDashboardLayout(body: body);
     }
 
     if (Responsive.isTablet(context)) {
-      return const TabletDashboard();
+      return _TabletDashboardLayout(body: body);
     }
 
-    return const MobileDashboard();
+    return _MobileDashboardLayout(body: body);
   }
 }
 
-class DesktopDashboard extends StatelessWidget {
-  const DesktopDashboard({super.key});
+class _DesktopDashboardLayout extends StatelessWidget {
+  const _DesktopDashboardLayout({required this.body});
+
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Expanded(
-            flex: 2,
+            flex: 1,
             child: SidebarNavigation(
               userName: 'John Doe',
               userEmail: 'john.doe@example.com',
@@ -41,10 +45,7 @@ class DesktopDashboard extends StatelessWidget {
           ),
           Expanded(
             flex: 6,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: const DashboardGrid(),
-            ),
+            child: Padding(padding: const EdgeInsets.all(16.0), child: body),
           ),
         ],
       ),
@@ -52,8 +53,10 @@ class DesktopDashboard extends StatelessWidget {
   }
 }
 
-class TabletDashboard extends StatelessWidget {
-  const TabletDashboard({super.key});
+class _TabletDashboardLayout extends StatelessWidget {
+  const _TabletDashboardLayout({required this.body});
+
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +66,15 @@ class TabletDashboard extends StatelessWidget {
         userName: 'John Doe',
         userEmail: 'john.doe@example.com',
       ),
-      body: const DashboardGrid(),
+      body: body,
     );
   }
 }
 
-class MobileDashboard extends StatelessWidget {
-  const MobileDashboard({super.key});
+class _MobileDashboardLayout extends StatelessWidget {
+  const _MobileDashboardLayout({required this.body});
+
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +85,7 @@ class MobileDashboard extends StatelessWidget {
         userEmail: 'john.doe@example.com',
       ),
       endDrawer: const Placeholder(),
-      body: const DashboardGrid(),
+      body: body,
       bottomNavigationBar: const BottomNavigation(),
     );
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import '../../../core/navigation/models/navigation_config.dart';
-import '../../../core/navigation/widgets/navigation_item.dart';
+import '../navigation/models/navigation_config.dart';
+import '../navigation/widgets/navigation_item.dart';
 
 class DashboardDrawer extends StatelessWidget {
   final String userName;

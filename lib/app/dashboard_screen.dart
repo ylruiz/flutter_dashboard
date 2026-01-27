@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../features/dashboard/widgets/dashboard_widget.dart';
+import '../core/widgets/dashboard_layout.dart';
+import '../features/dashboard/widgets/dashboard_content.dart';
 
 @RoutePage()
 class DashboardScreen extends StatelessWidget {
@@ -9,6 +10,6 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ResponsiveDashboard();
+    return const ResponsiveDashboardLayout(body: DashboardContent());
   }
 }
