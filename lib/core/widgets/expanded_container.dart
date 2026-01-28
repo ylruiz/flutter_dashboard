@@ -5,6 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../config/app_constants.dart';
 import '../draggable/widgets/drag_handle_scope.dart';
+import '../draggable/widgets/reorderable_drag_start_listener.dart';
 import 'custom_card.dart';
 
 class ExpandedContainer extends HookConsumerWidget {
@@ -62,14 +63,7 @@ class ExpandedContainer extends HookConsumerWidget {
                           : Icon(PhosphorIconsRegular.caretDown),
                     ),
                     if (isReorderable && index != null)
-                      ReorderableDragStartListener(
-                        index: index,
-                        child: IconButton(
-                          onPressed: null,
-                          icon: Icon(PhosphorIconsRegular.arrowsOutCardinal),
-                          tooltip: 'Drag to reorder',
-                        ),
-                      ),
+                      ResponsiveReorderableDragStartListener(index: index),
                   ],
                 ),
               ],
