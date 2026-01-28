@@ -46,13 +46,21 @@ class ExpandedContainer extends HookConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    isContentExpanded.value = !isContentExpanded.value;
-                  },
-                  icon: isContentExpanded.value
-                      ? Icon(PhosphorIconsRegular.caretUp)
-                      : Icon(PhosphorIconsRegular.caretDown),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        isContentExpanded.value = !isContentExpanded.value;
+                      },
+                      icon: isContentExpanded.value
+                          ? Icon(PhosphorIconsRegular.caretUp)
+                          : Icon(PhosphorIconsRegular.caretDown),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(PhosphorIconsRegular.arrowsOutCardinal),
+                    ),
+                  ],
                 ),
               ],
             ),
