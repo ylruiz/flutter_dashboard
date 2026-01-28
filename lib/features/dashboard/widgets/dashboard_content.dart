@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../core/config/app_constants.dart';
 import '../../../core/config/responsive.dart';
+import '../../../core/draggable/widgets/drag_handle_scope.dart';
 import '../../tables/widgets/component_specs_table.dart';
 import '../../tables/widgets/sensor_table.dart';
 import 'graph_container.dart';
@@ -48,29 +50,45 @@ class _DesktopDashboardContent extends StatelessWidget {
   }
 }
 
-class _MobileDashboardContent extends StatelessWidget {
+class _MobileDashboardContent extends HookWidget {
   const _MobileDashboardContent();
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      itemCount: 3,
-      separatorBuilder: (context, index) =>
-          const SizedBox(height: AppSpacing.sm),
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      itemBuilder: (context, index) {
-        switch (index) {
-          case 0:
-            return GraphContainer();
-          case 1:
-            return SensorTable();
-          case 2:
-            return ComponentSpecsTable();
+    final items = useMemoized<List<Widget>>(
+      () => const [
+        GraphContainer(key: ValueKey('graph')),
+        SensorTable(key: ValueKey('sensor')),
+        ComponentSpecsTable(key: ValueKey('specs')),
+      ],
+    );
 
-          default:
-            return const SizedBox.shrink();
-        }
+    final state = useState<List<Widget>>(items);
+
+    void onReorder(int oldIndex, int newIndex) {
+      final list = List<Widget>.of(state.value);
+      if (newIndex > oldIndex) newIndex -= 1;
+      final moved = list.removeAt(oldIndex);
+      list.insert(newIndex, moved);
+      state.value = list;
+    }
+
+    return ReorderableListView.builder(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      buildDefaultDragHandles: false,
+      onReorder: onReorder,
+      proxyDecorator: (child, index, animation) {
+        return Material(type: MaterialType.transparency, child: child);
+      },
+      itemCount: state.value.length,
+      itemBuilder: (context, index) {
+        final item = state.value[index];
+
+        return Padding(
+          key: item.key!,
+          padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+          child: DragHandleScope(index: index, child: item),
+        );
       },
     );
   }

@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../config/app_constants.dart';
+import '../draggable/widgets/drag_handle_scope.dart';
 import 'custom_card.dart';
 
 class ExpandedContainer extends HookConsumerWidget {
@@ -11,10 +12,12 @@ class ExpandedContainer extends HookConsumerWidget {
     super.key,
     required this.title,
     required this.child,
+    this.isReorderable = true,
   });
 
   final String title;
   final Widget child;
+  final bool isReorderable;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,6 +25,8 @@ class ExpandedContainer extends HookConsumerWidget {
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    final index = isReorderable ? DragHandleScope.of(context) : null;
 
     return Container(
       height: isContentExpanded.value ? 400 : 80,
@@ -56,10 +61,15 @@ class ExpandedContainer extends HookConsumerWidget {
                           ? Icon(PhosphorIconsRegular.caretUp)
                           : Icon(PhosphorIconsRegular.caretDown),
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(PhosphorIconsRegular.arrowsOutCardinal),
-                    ),
+                    if (isReorderable && index != null)
+                      ReorderableDragStartListener(
+                        index: index,
+                        child: IconButton(
+                          onPressed: null,
+                          icon: Icon(PhosphorIconsRegular.arrowsOutCardinal),
+                          tooltip: 'Drag to reorder',
+                        ),
+                      ),
                   ],
                 ),
               ],
