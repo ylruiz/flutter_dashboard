@@ -24,7 +24,7 @@ class ExpandedContainer extends HookConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     return Container(
-      height: 300,
+      height: isContentExpanded.value ? 400 : 80,
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: AppBorderRadius.mediumRadius,
