@@ -6,6 +6,7 @@ import '../../../core/config/responsive.dart';
 import '../../../core/draggable/widgets/drag_handle_scope.dart';
 import '../../tables/widgets/component_specs_table.dart';
 import '../../tables/widgets/sensor_table.dart';
+import '../../../core/draggable/widgets/drop_zone.dart';
 import 'graph_container.dart';
 
 class ResponsiveDashboardContent extends StatelessWidget {
@@ -21,31 +22,105 @@ class ResponsiveDashboardContent extends StatelessWidget {
   }
 }
 
-class _DesktopDashboardContent extends StatelessWidget {
+class _DesktopDashboardContent extends HookWidget {
   const _DesktopDashboardContent();
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      spacing: AppSpacing.lg,
-      children: const [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: AppSpacing.lg,
-            children: [GraphContainer(), SensorTable()],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: AppSpacing.lg,
-            children: [ComponentSpecsTable()],
-          ),
-        ),
-      ],
+    // Hard-coded initial layout (left column has graph + sensor, right has specs)
+    final left = useState<List<String>>(['graph', 'sensor']);
+    final right = useState<List<String>>(['specs']);
+
+    final leftController = useScrollController();
+    final rightController = useScrollController();
+
+    Widget buildTile(String id) {
+      switch (id) {
+        case 'graph':
+          return const GraphContainer(key: ValueKey('graph'));
+        case 'sensor':
+          return const SensorTable(key: ValueKey('sensor'));
+        case 'specs':
+          return const ComponentSpecsTable(key: ValueKey('specs'));
+        default:
+          return const SizedBox.shrink();
+      }
+    }
+
+    void move({
+      required String id,
+      required bool fromLeft,
+      required int fromIndex,
+      required bool toLeft,
+      required int toIndex,
+    }) {
+      final fromList = List<String>.of(fromLeft ? left.value : right.value);
+      final toList = List<String>.of(toLeft ? left.value : right.value);
+
+      // remove from source
+      fromList.removeAt(fromIndex);
+
+      // if moving within same list, index may shift
+      var insertIndex = toIndex;
+      if (fromLeft == toLeft && fromIndex < toIndex) {
+        insertIndex -= 1;
+      }
+
+      insertIndex = insertIndex.clamp(0, toList.length);
+
+      // if same column, we're inserting into the already-removed list
+      final target = (fromLeft == toLeft) ? fromList : toList;
+      target.insert(insertIndex, id);
+
+      // commit
+      if (fromLeft) {
+        left.value = (fromLeft == toLeft) ? target : fromList;
+      } else {
+        right.value = (fromLeft == toLeft) ? target : fromList;
+      }
+
+      if (toLeft && fromLeft != toLeft) left.value = target;
+      if (!toLeft && fromLeft != toLeft) right.value = target;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SizedBox(
+            height: constraints
+                .maxHeight, // important: gives scroll views a bounded height
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: leftController,
+                    child: DropZone(
+                      isLeft: true,
+                      ids: left.value,
+                      buildTile: buildTile,
+                      onMove: move,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.lg),
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: rightController,
+                    child: DropZone(
+                      isLeft: false,
+                      ids: right.value,
+                      buildTile: buildTile,
+                      onMove: move,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
